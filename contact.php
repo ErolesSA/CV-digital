@@ -1,26 +1,25 @@
 <?php 
 
-$receiving_email_address = 's.a.erolesdiaz@gmail.com';
+$nombre = $_POST['name'];
+$mail = $_POST['email'];
+$asunto = $_POST['subject'];
+$texto = $_POST['message'];
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+$header = 'From: '. $mail . "\r\n";
+$header = "X-Mailer: PHP/" . phpversion() . "\r\n";
+$header = "Mime-Version: 1.0 \r\n";
+$header = "Content-Type: text/plain";
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+$mensaje = "Este mensaje fue enviado por " . $nombre . "\r\n";
+$mensaje = "Su email es:  " . $mail . "\r\n";
+$mensaje = "Asunto: " . $asunto . "\r\n";
+$mensaje = "Mensaje: " . $_POST['message'] . "\r\n";
+$mensaje = "Enviado el:  " . date('d/m/Y', time());
 
- 
+$para = 's.a.erolesdiaz@gmail.com';
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+mail( $para, $asunto, utf8_decode( $mensaje ), $header);
 
-  echo $contact->send();
+header("Location:index.html");
+
 ?>
